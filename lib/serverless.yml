@@ -46,17 +46,14 @@ iamRoleStatements:
 
 functions:
   core:
-    handler: core
-    root: core
+    handler: core/core.run
     events:
       - schedule:
           rate: rate(5 minutes)
           enabled: false
 
   waitForDate:
-    handler: index.waitForDate
-    root: runners
+    handler: runners/index.waitForDate
 
   email:
-    handler: index.email
-    root: runners
+    handler: runners/index.email
