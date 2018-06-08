@@ -21,7 +21,7 @@ Requirements:
     * https://console.aws.amazon.com/iam/home?region=us-west-2#/encryptionKeys/us-west-2
     * Assign your user rights to work with it
     * After we have deployed we can grant rights to the AWS users that's created from serverless
-* Duplicate `lib/config/example.yml` file and name it your env ex: `prod.yml`
+* Setup `lib/config.yml`
     * Update configuration to include postgres auth info, create a `uniqueNamedKey` for your password
     * vpc information is optional
     * Make sure to add the cryptkey that we generated earlier
