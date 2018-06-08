@@ -1,0 +1,19 @@
+{
+  "name": "sequencer",
+  "version": "0.0.1",
+  "description": "Provides an easy way to schedule tasks and add logic around how to progress from one task to the other",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dreamforward/sequencer.git"
+  },
+  "author": "Ryan Kahn <ryan@dreamforward.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dreamforward/sequencer/issues"
+  },
+  "homepage": "https://github.com/dreamforward/sequencer#readme"
+}
