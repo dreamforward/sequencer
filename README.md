@@ -67,7 +67,7 @@ provided a set of pre-made task runners:
 
 Waits until the specified date is now or in the past to continue.
 
-```JSON
+```javascript
 {
   // ISO 8601 date
   "date": "2018-06-08T17:49:31+00:00"    
@@ -78,7 +78,7 @@ Waits until the specified date is now or in the past to continue.
 
 Waits until the specified day of the week
 
-```
+```javascript
 {
     // Moment.js getter https://momentjs.com/docs/#/get-set/get/
     "attribute": "year|month|date|hour|minute",
@@ -91,7 +91,7 @@ Waits until the specified day of the week
 
 Waits for a given amount of time
 
-```JSON
+```javascript
 {
   "amount": 21, // {Number}
   "unit": "[years|quarters|weeks|months|days|hours|minutes|seconds|milliseconds]"
@@ -102,7 +102,7 @@ Waits for a given amount of time
 
 Send an email
 
-```JSON
+```javascript
 {
   "from": "email@example.com",
   "to": ["target@example.com", "target2@example.com"],
@@ -118,7 +118,7 @@ Send an email
 
 Send an sms
 
-```JSON
+```javascript
 {
   "from": "+11231231234",
   "to": "+11231231234",
@@ -135,7 +135,7 @@ Jumps to a different step, given the step ID
 Checked every cycle to see if the conditional has been achieved. If it has, 
 it will bypass all the other given steps and execute.
 
-```json
+```javascript
 {
   "checkLambda": "lambda:arn"
 }
@@ -146,7 +146,7 @@ it will bypass all the other given steps and execute.
 If the conditional returns true, continue down the normal path. If false it
 will divert to the alternate path.
 
-```json
+```javascript
 {
   "checkLambda": "lambda:arn"
 }
