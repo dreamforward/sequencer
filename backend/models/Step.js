@@ -7,9 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
-    sequenceId: DataTypes.integer,
-    nextStep: DataTypes.integer,
-    altNextStep: DataTypes.integer,
+    sequenceId: DataTypes.INTEGER,
+    nextStep: DataTypes.INTEGER,
+    altNextStep: DataTypes.INTEGER,
     type: DataTypes.STRING,
     config: DataTypes.JSON
   }, {

@@ -1,0 +1,106 @@
+service: sequencer
+
+custom: ${file(config.yml):${opt:stage}}
+
+provider:
+  name: aws
+  region: us-west-2
+  runtime: nodejs6.10
+  logRetentionInDays: 90
+  vpc: ${self:custom.vpc}
+  environment:
+    SERVERLESS_STAGE: ${opt:stage}
+    SERVERLESS_SERVICE_NAME: ${self:service}
+    POSTGRES_URL: ${self:custom.database.url}
+    POSTGRES_USERNAME: ${self:custom.database.username}
+    POSTGRES_DATABASE: ${self:custom.database.name}
+    POSTGRES_PASSWORD_KEY: ${self:custom.database.passwordKey}
+    POSTGRES_PORT: ${self:custom.database.port}
+
+
+plugins:
+  - serverless-crypt
+  - serverless-plugin-scripts
+  - serverless-offline
+
+scripts:
+    hooks:
+      'package:initialize': npm run prepare-deploy
+
+iamRoleStatements:
+  # Email Permissions
+  - Effect: Allow
+    Action:
+      - SES:SendEmail
+    Resource: "*"
+
+  - Effect: 'Allow'
+    Action:
+      - 'lambda:InvokeFunction'
+    Resource:
+    - Fn::Join:
+      - ':'
+      - - arn:aws:lambda
+        - Ref: AWS::Region
+        - Ref: AWS::AccountId
+        - function:${self:service}-${opt:stage, self:provider.stage}-*
+
+functions:
+  ## API Functions
+  apiRetrieve:
+    handler: functions/api/genericCrud.retrieve
+    events:
+      - http:
+          cors: true
+          path: admin/crud/{model}
+          method: get
+          authorizer: apiAuthorizer
+      - http:
+          cors: truew
+          path: admin/crud/{model}/{id}
+          method: get
+          authorizer: apiAuthorizer
+
+  apiCreate:
+    handler: functions/api/genericCrud.create
+    events:
+      - http:
+          cors: true
+          path: admin/crud/{model}
+          method: post
+          authorizer: apiAuthorizer
+
+  apiRemove:
+    handler: functions/api/genericCrud.remove
+    events:
+      - http:
+          cors: true
+          path: admin/crud/{model}/{id}
+          method: delete
+          authorizer: apiAuthorizer
+
+  apiUpdate:
+    handler: functions/api/genericCrud.update
+    events:
+      - http:
+          cors: true
+          path: admin/crud/{model}/{id}
+          method: patch
+          authorizer: apiAuthorizer
+
+  apiAuthorizer:
+    handler: functions/api/authorizer.handler
+
+  ## Core Events
+  core:
+    handler: functions/core/core.run
+    events:
+      - schedule:
+          rate: rate(5 minutes)
+          enabled: false
+
+  waitForDate:
+    handler: functions/unners/waitForDate
+
+  email:
+    handler: functions/runners/email

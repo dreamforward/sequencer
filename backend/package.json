@@ -4,7 +4,9 @@
   "description": "Provides an easy way to schedule tasks and add logic around how to progress from one task to the other",
   "main": "index.js",
   "scripts": {
-    "prepare-deploy": "docker run --rm -v $PWD:/data -w /data lambci/lambda:build-nodejs6.10 npm rebuild --update-binary"
+    "prepare-deploy": "docker run --rm -v $PWD:/data -w /data lambci/lambda:build-nodejs6.10 npm rebuild --update-binary",
+    "prepare-offline": "cp -R ../node_modules/serverless-crypt/dists/slscrypt ./node_modules/slscrypt",
+    "start": "sls offline start --stage offline --noAuth --dontPrintOutput --port 4000"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,9 @@
   },
   "homepage": "https://github.com/dreamforward/sequencer#readme",
   "dependencies": {
-    "bluebird": "^3.5.1"
+    "bluebird": "^3.5.1",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.37.10"
   }
 }

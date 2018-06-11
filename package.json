@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/dreamforward/sequencer#readme",
   "devDependencies": {
-    "pg": "^7.4.3",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^4.37.10",
     "sequelize-cli": "^4.0.0",
     "serverless": "^1.27.3",
     "serverless-crypt": "0.0.4",
     "serverless-plugin-scripts": "^1.0.2",
     "standard": "^11.0.1"
+  },
+  "dependencies": {
+    "serverless-offline": "^3.25.4"
   }
 }
