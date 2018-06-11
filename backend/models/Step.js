@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   Step.associate = (models) => {
     Step.belongsTo(models.Sequence, {foreignKey: 'sequenceId'})
+    Step.hasMany(models.Runner, {foreignKey: 'stepId'})
   }
   return Step
 }

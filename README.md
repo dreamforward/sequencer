@@ -62,6 +62,19 @@ provided a set of pre-made task runners:
     * WaitForDateComparison
     * Email
     * SMS
+    
+#### Anatomy of a runner
+
+The runner will receive an event with config and a list of runners. The config can be
+completely custom, it's an arbitrary JSON object.
+
+Expected response is an array of runner objects containing to keys:
+* `id` - The id of the runner
+* `action` The action to take for this runner possible responses
+    * `next` - Will go to the next step 
+    * `noop` - Will wait at this step and be re-executed later
+    * `altNext` - Will go to the alternate next step 
+* `message` - Optional, used for logging
 
 ### WaitForDate
 

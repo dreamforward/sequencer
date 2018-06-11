@@ -1,5 +1,5 @@
 'use strict'
-const wrapPromise = require('../wrapPromise')
+const wrapPromise = require('../../lib/wrapPromise')
 
 const modelMapping = {
   'runners': 'Runner',
@@ -38,8 +38,8 @@ const remove = (event) => {
 }
 
 module.exports = {
-  retrieve: wrapPromise(retrieve),
-  update: wrapPromise(update),
-  create: wrapPromise(create),
-  remove: wrapPromise(remove)
+  retrieve: wrapPromise.rest(retrieve),
+  update: wrapPromise.rest(update),
+  create: wrapPromise.rest(create),
+  remove: wrapPromise.rest(remove)
 }

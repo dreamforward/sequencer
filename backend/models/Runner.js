@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'runners'
   })
   Runner.associate = (models) => {
-    Runner.hasMany(models.Step, {foreignKey: 'sequenceId'})
+    Runner.belongsTo(models.Step, {foreignKey: 'stepId'})
+    Runner.belongsTo(models.Sequence, {foreignKey: 'sequenceId'})
   }
   return Runner
 }

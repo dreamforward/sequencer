@@ -20,6 +20,7 @@
   "homepage": "https://github.com/dreamforward/sequencer#readme",
   "dependencies": {
     "bluebird": "^3.5.1",
+    "moment": "^2.22.2",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.37.10"

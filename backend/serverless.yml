@@ -16,7 +16,25 @@ provider:
     POSTGRES_DATABASE: ${self:custom.database.name}
     POSTGRES_PASSWORD_KEY: ${self:custom.database.passwordKey}
     POSTGRES_PORT: ${self:custom.database.port}
+    LAMBDA_PREAMBLE: ${self:service}-${opt:stage, self:provider.stage}-
 
+  iamRoleStatements:
+    # Email Permissions
+    - Effect: Allow
+      Action:
+        - SES:SendEmail
+      Resource: "*"
+
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource:
+      - Fn::Join:
+        - ':'
+        - - arn:aws:lambda
+          - Ref: AWS::Region
+          - Ref: AWS::AccountId
+          - function:${self:service}-${opt:stage, self:provider.stage}-*
 
 plugins:
   - serverless-crypt
@@ -26,24 +44,6 @@ plugins:
 scripts:
     hooks:
       'package:initialize': npm run prepare-deploy
-
-iamRoleStatements:
-  # Email Permissions
-  - Effect: Allow
-    Action:
-      - SES:SendEmail
-    Resource: "*"
-
-  - Effect: 'Allow'
-    Action:
-      - 'lambda:InvokeFunction'
-    Resource:
-    - Fn::Join:
-      - ':'
-      - - arn:aws:lambda
-        - Ref: AWS::Region
-        - Ref: AWS::AccountId
-        - function:${self:service}-${opt:stage, self:provider.stage}-*
 
 functions:
   ## API Functions
@@ -98,9 +98,19 @@ functions:
       - schedule:
           rate: rate(5 minutes)
           enabled: false
+      - http:
+          cors: true
+          path: core
+          method: get
 
-  waitForDate:
-    handler: functions/unners/waitForDate
+  WaitForDate:
+    handler: functions/runners/WaitForDate.run
 
-  email:
-    handler: functions/runners/email
+  WaitForDuration:
+      handler: functions/runners/WaitForDuration.run
+
+  WaitForDateComparison:
+      handler: functions/runners/WaitForDateComparison.run
+
+  Email:
+    handler: functions/runners/Email.run
