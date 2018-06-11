@@ -59,6 +59,7 @@ provided a set of pre-made task runners:
 * Generic Runners:
     * WaitForDate
     * WaitForDuration
+    * WaitForDateComparison
     * Email
     * SMS
 
