@@ -69,9 +69,20 @@ Waits until the specified date is now or in the past to continue.
 ```JSON
 {
   // ISO 8601 date
-  "date": "2018-06-08T17:49:31+00:00", 
-  // Resolution to compare. If minute, will only compare the minute values of current date to passed in date
-  "resolution": "[exact|year|month|day|hour|minute|second]"    
+  "date": "2018-06-08T17:49:31+00:00"    
+}
+```
+
+### WaitForDateComparison
+
+Waits until the specified day of the week
+
+```
+{
+    // Moment.js getter https://momentjs.com/docs/#/get-set/get/
+    "attribute": "year|month|date|hour|minute",
+    // list of values to compare result to. If one matches it continues
+    "values": [0,1,3,6]
 }
 ``` 
 

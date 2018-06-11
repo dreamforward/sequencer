@@ -51,9 +51,23 @@ module.exports = {
         defaultValue: Sequelize.fn('NOW')
       }
     })
+      .then(() => {
+        queryInterface.addColumn(sequences, 'firstStep', {
+          type: Sequelize.INTEGER,
+          references: {
+            model: steps,
+            key: 'id'
+          },
+          onUpdate: 'cascade',
+          onDelete: 'cascade'
+        })
+      })
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable(steps)
+    return queryInterface.removeColumn(sequences, 'firstStep')
+      .then(() => {
+        return queryInterface.dropTable(steps)
+      })
   }
 }

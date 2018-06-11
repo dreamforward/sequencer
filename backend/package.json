@@ -6,7 +6,7 @@
   "scripts": {
     "prepare-deploy": "docker run --rm -v $PWD:/data -w /data lambci/lambda:build-nodejs6.10 npm rebuild --update-binary",
     "prepare-offline": "cp -R ../node_modules/serverless-crypt/dists/slscrypt ./node_modules/slscrypt",
-    "start": "sls offline start --stage offline --noAuth --dontPrintOutput --port 4000"
+    "start": "sls offline start --stage offline --noAuth --port 4000"
   },
   "repository": {
     "type": "git",
