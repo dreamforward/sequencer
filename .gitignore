@@ -1,3 +1,8 @@
 node_modules
 .idea
 sequelize.json
+
+# Remove if you have copied this project for
+#   your own needs and want to deploy custom code
+backend/config.yml
+backend/.serverless-secret.json
