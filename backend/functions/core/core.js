@@ -41,20 +41,20 @@ module.exports.run = wrapPromise.rest(() => {
         let nextResults = Promise.resolve()
         if (actions.next.length) {
           if (stepResults.step.nextStep) {
-            metrics.next += stepResults.step.nextStep
+            metrics.next += actions.next.length
             nextResults = models.Runner.update({startStep: new Date(), stepId: stepResults.step.nextStep}, { where: { id: actions.next } })
           } else {
-            metrics.finished += stepResults.step.nextStep
+            metrics.finished += actions.next.length
             nextResults = models.Runner.update({endSequence: new Date(), stepId: null, isActive: false}, { where: { id: actions.next } })
           }
         }
         let altNextResults = Promise.resolve()
         if (actions.altNext.length) {
           if (stepResults.step.altNext) {
-            metrics.altNext += stepResults.step.altNextStep
+            metrics.altNext += actions.altNext.length
             altNextResults = models.Runner.update({startStep: new Date(), stepId: stepResults.step.altNextStep}, { where: { id: actions.altNext } })
           } else {
-            metrics.finished += stepResults.step.altNextStep
+            metrics.finished += actions.altNext.length
             altNextResults.push(models.Runner.update({endSequence: new Date(), stepId: null, isActive: false}, { where: { id: actions.next } }))
           }
         }
@@ -68,7 +68,7 @@ module.exports.run = wrapPromise.rest(() => {
     .then((changes) => {
       // Everything is processed
       let hasChangedAnything = changes.find((changeResults) => {
-        return changeResults.next.length || changeResults.altNext.length
+        return changeResults.next || changeResults.altNext
       })
       if (hasChangedAnything) {
         return executeCore()

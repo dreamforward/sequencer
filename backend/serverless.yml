@@ -8,6 +8,7 @@ provider:
   runtime: nodejs6.10
   logRetentionInDays: 90
   vpc: ${self:custom.vpc}
+  timeout: 30
   environment:
     SERVERLESS_STAGE: ${opt:stage}
     SERVERLESS_SERVICE_NAME: ${self:service}
@@ -107,10 +108,10 @@ functions:
     handler: functions/runners/WaitForDate.run
 
   WaitForDuration:
-      handler: functions/runners/WaitForDuration.run
+    handler: functions/runners/WaitForDuration.run
 
   WaitForDateComparison:
-      handler: functions/runners/WaitForDateComparison.run
+    handler: functions/runners/WaitForDateComparison.run
 
   Email:
     handler: functions/runners/Email.run
