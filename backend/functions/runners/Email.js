@@ -1,14 +1,31 @@
 'use strict'
 const wrapPromise = require('../../lib/wrapPromise')
 const Promise = require('bluebird')
+const compileString = require('../../lib/compileString')
+const mail = require('../../lib/mail')
 
 module.exports.run = wrapPromise.plain((event) => {
   const config = event.config
-  console.log('Email:', config)
-  return event.runners.map((runner) => {
-    return {
-      id: runner.id,
-      action: 'noop'
+  return Promise.map(event.runners, (runner) => {
+    const compiled = {
+      from: compileString(config.from, runner),
+      text: compileString(config.text, runner),
+      html: compileString(config.html, runner),
+      subject: compileString(config.subject, runner)
     }
+    ;['to', 'bcc', 'cc'].forEach((key) => {
+      if (typeof config[key] === 'string') {
+        compiled[key] = compileString(config[key], runner)
+        return
+      }
+      compiled[key] = config[key].map((string) => {
+        return compileString(string, runner)
+      })
+    })
+    return mail.sendMail(compiled)
+      .return({
+        id: runner.id,
+        action: 'next'
+      })
   })
 })

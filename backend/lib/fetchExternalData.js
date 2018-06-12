@@ -1,7 +1,7 @@
 'use strict'
 
-const AWS = require('aws-sdk')
 const Promise = require('bluebird')
+const AWS = require('aws-sdk')
 
 AWS.config.setPromisesDependency(Promise)
 
@@ -9,33 +9,28 @@ const lambda = new AWS.Lambda({
   region: 'us-west-2'
 })
 
-module.exports = (step) => {
+module.exports = (runnerList) => {
   if (process.env.IS_OFFLINE) {
     console.log('OFFLINE')
-    const runner = require(`../functions/runners/${step.type}`)
+    const lambda = require('../functions/api/fetchExternalData')
     return new Promise((resolve, reject) => {
-      return runner.run({
-        config: step.config,
-        runners: step.Runners
-      }, {
+      return lambda.run(runnerList, {
         succeed: resolve,
         fail: reject
       })
     })
   }
-  const label = 'Executed Step: ' + step.type
-  console.time(label)
   return lambda.invoke({
-    FunctionName: process.env.LAMBDA_PREAMBLE + step.type,
+    FunctionName: process.env.FETCH_EXTERNAL_DATA_LAMBDA,
     InvocationType: 'RequestResponse',
     Payload: JSON.stringify({
-      config: step.config,
-      runners: step.Runners
+      runners: runnerList.map((runner) => {
+        return runner.get({id: true, dataLookup: true})
+      })
     })
   })
     .promise()
     .then((results) => {
-      console.timeEnd(label)
       return JSON.parse(results.Payload)
     })
 }

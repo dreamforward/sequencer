@@ -9,6 +9,10 @@ const lambda = new AWS.Lambda({
 })
 
 module.exports = () => {
+  if (process.env.IS_OFFLINE) {
+    console.log('OFFLINE')
+    return Promise.resolve()
+  }
   return lambda.invoke({
     FunctionName: process.env.LAMBDA_PREAMBLE + 'core',
     InvocationType: 'Event'

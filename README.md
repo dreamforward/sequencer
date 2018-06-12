@@ -49,7 +49,7 @@ Requirements:
 * Phew. You are done with the initial install.
     
 ## Task Runners
-For your continence we have
+For your convenience we have
 provided a set of pre-made task runners:
 
 * Flow Control:

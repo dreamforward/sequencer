@@ -4,6 +4,7 @@ const wrapPromise = require('../../lib/wrapPromise')
 const Promise = require('bluebird')
 const executeStep = require('../../lib/executeStep')
 const executeCore = require('../../lib/executeCore')
+const fetchExternalData = require('../../lib/fetchExternalData')
 
 module.exports.run = wrapPromise.rest(() => {
   const models = require('../../models/index')
@@ -18,6 +19,37 @@ module.exports.run = wrapPromise.rest(() => {
       }
     ]
   })
+    .then((steps) => {
+      steps = steps.map((step) => {
+        step.Runners = step.Runners.map((runner) => {
+          return runner.get({raw: true})
+        })
+        return step
+      })
+
+      let externalUserLookupIds = steps.reduce((externalIds, step) => {
+        if (!step.get('requiresExternalData')) {
+          return externalIds
+        }
+        step.Runners.forEach((runner) => {
+          externalIds[runner.dataLookup] = externalIds[runner.dataLookup] || []
+          externalIds[runner.dataLookup].push(runner)
+        })
+        return externalIds
+      }, {})
+      if (Object.keys(externalUserLookupIds).length) {
+        return fetchExternalData(Object.keys(externalUserLookupIds))
+          .then((externalData) => {
+            externalData.forEach((externalData) => {
+              externalUserLookupIds[externalData.id].forEach((runner) => {
+                runner.external = externalData
+              })
+            })
+            return steps
+          })
+      }
+      return steps
+    })
     .map((step) => {
       return Promise.props({
         step: step,

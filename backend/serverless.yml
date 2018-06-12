@@ -18,6 +18,7 @@ provider:
     POSTGRES_PASSWORD_KEY: ${self:custom.database.passwordKey}
     POSTGRES_PORT: ${self:custom.database.port}
     LAMBDA_PREAMBLE: ${self:service}-${opt:stage, self:provider.stage}-
+    FETCH_EXTERNAL_DATA_LAMBDA: ${self:custom.fetchExternalDataLambda}
 
   iamRoleStatements:
     # Email Permissions
@@ -47,6 +48,10 @@ scripts:
       'package:initialize': npm run prepare-deploy
 
 functions:
+  ## Mock event for fetching data
+  fetchExternalData:
+    handler: functions/api/fetchExternalData.run
+
   ## API Functions
   apiRetrieve:
     handler: functions/api/genericCrud.retrieve

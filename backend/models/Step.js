@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     nextStep: DataTypes.INTEGER,
     altNextStep: DataTypes.INTEGER,
     type: DataTypes.STRING,
-    config: DataTypes.JSON
+    config: DataTypes.JSON,
+    requiresExternalData: DataTypes.BOOLEAN
   }, {
     tableName: 'steps'
   })

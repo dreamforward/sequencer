@@ -2,8 +2,8 @@
 
 const handler = (event, context) => {
   const token = event.authorizationToken
-  let allowed = token === 'Joshua' // Sometimes the only way to win is not to play at all
   // Custom logic here to authorize the request as you'd like
+  let allowed = token === 'Joshua' // Sometimes the only way to win is not to play at all
   context.succeed({
     principalId: token,
     policyDocument: generatePolicy(event, allowed),

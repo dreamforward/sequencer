@@ -1,14 +1,14 @@
 'use strict'
 const wrapPromise = require('../../lib/wrapPromise')
-const Promise = require('bluebird')
+const moment = require('moment')
 
 module.exports.run = wrapPromise.plain((event) => {
   const config = event.config
-  console.log('WaitForDate:', config)
   return event.runners.map((runner) => {
+    const matches = moment(config.date).isSame(moment(), 'day')
     return {
       id: runner.id,
-      action: 'noop'
+      action: matches ? 'next' : 'noop'
     }
   })
 })

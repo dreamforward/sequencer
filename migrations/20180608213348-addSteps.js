@@ -40,6 +40,7 @@ module.exports = {
       },
       type: Sequelize.STRING,
       config: Sequelize.JSON,
+      requiresExternalData: Sequelize.BOOLEAN,
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

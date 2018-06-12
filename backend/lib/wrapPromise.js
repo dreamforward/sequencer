@@ -28,7 +28,6 @@ module.exports.rest = (handler) => {
         return Promise.method(handler)(event)
       })
       .then((results) => {
-        console.log(results)
         context.succeed({
           statusCode: 200,
           body: JSON.stringify(results)
