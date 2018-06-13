@@ -12,7 +12,7 @@ const lambda = new AWS.Lambda({
 module.exports = (step) => {
   if (process.env.IS_OFFLINE) {
     console.log('OFFLINE')
-    const runner = require(`../functions/runners/${step.type}`)
+    const runner = require(`../functions/steps/${step.type}`)
     return new Promise((resolve, reject) => {
       return runner.run({
         config: step.config,

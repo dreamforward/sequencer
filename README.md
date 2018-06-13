@@ -70,7 +70,7 @@ completely custom, it's an arbitrary JSON object.
 
 Expected response is an array of runner objects containing to keys:
 * `id` - The id of the runner
-* `action` The action to take for this runner possible responses
+* `action` The action to take for this runner
     * `next` - Will go to the next step 
     * `noop` - Will wait at this step and be re-executed later
     * `altNext` - Will go to the alternate next step 

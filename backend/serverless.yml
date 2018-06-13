@@ -110,13 +110,13 @@ functions:
           method: get
 
   WaitForDate:
-    handler: functions/runners/WaitForDate.run
+    handler: functions/steps/WaitForDate.run
 
   WaitForDuration:
-    handler: functions/runners/WaitForDuration.run
+    handler: functions/steps/WaitForDuration.run
 
   WaitForDateComparison:
-    handler: functions/runners/WaitForDateComparison.run
+    handler: functions/steps/WaitForDateComparison.run
 
   Email:
-    handler: functions/runners/Email.run
+    handler: functions/steps/Email.run
