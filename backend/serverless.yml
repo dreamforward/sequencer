@@ -5,7 +5,7 @@ custom: ${file(config.yml):${opt:stage}}
 provider:
   name: aws
   region: us-west-2
-  runtime: nodejs6.10
+  runtime: nodejs8.10
   logRetentionInDays: 90
   vpc: ${self:custom.vpc}
   timeout: 30

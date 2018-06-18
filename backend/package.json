@@ -4,7 +4,7 @@
   "description": "Provides an easy way to schedule tasks and add logic around how to progress from one task to the other",
   "main": "index.js",
   "scripts": {
-    "prepare-deploy": "docker run --rm -v $PWD:/data -w /data lambci/lambda:build-nodejs6.10 npm rebuild --update-binary",
+    "prepare-deploy": "docker run --rm -v $PWD:/data -w /data lambci/lambda:build-nodejs8.10 npm rebuild --update-binary",
     "prepare-offline": "cp -R ../node_modules/serverless-crypt/dists/slscrypt ./node_modules/slscrypt",
     "start": "sls offline start --stage offline --noAuth --dontPrintOutput --port 4000"
   },
