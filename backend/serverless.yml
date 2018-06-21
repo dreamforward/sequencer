@@ -120,3 +120,9 @@ functions:
 
   Email:
     handler: functions/steps/Email.run
+
+  Conditional:
+    handler: functions/steps/Conditional.run
+
+  Goal:
+    handler: functions/steps/Goal.run

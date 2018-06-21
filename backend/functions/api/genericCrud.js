@@ -17,7 +17,7 @@ const retrieve = (event) => {
   if (event.pathParameters.id) {
     filter.id = parseInt(event.pathParameters.id)
   }
-  return models[modelMapping[event.pathParameters.model]].findAll({where: filter})
+  return models[modelMapping[event.pathParameters.model]].findAll({where: filter, order: ['id']})
 }
 
 const update = (event) => {

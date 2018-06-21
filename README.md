@@ -83,7 +83,7 @@ Waits until the specified date is now or in the past to continue.
 ```javascript
 {
   // ISO 8601 date
-  "date": "2018-06-08T17:49:31+00:00"    
+  "date": "2018-06-08T17:49:31+00:00"
 }
 ```
 
@@ -132,16 +132,12 @@ Send an email
 Send an sms
 
 ```javascript
-{
+{****
   "from": "+11231231234",
   "to": "+11231231234",
   "message": "Hello world"
 }
 ```
-
-### GoTo
-
-Jumps to a different step, given the step ID
 
 ### Goal
 
@@ -150,17 +146,35 @@ it will bypass all the other given steps and execute.
 
 ```javascript
 {
-  "checkLambda": "lambda:arn"
+  "lodashCommand": "gt",,
+  "value": {
+    type: "get",
+    value: "path.to.value"
+  },
+  "compareTo": {
+    type: "raw",
+    value: "myValue123"
+  }
 }
 ```
 
 ### Conditional
 
 If the conditional returns true, continue down the normal path. If false it
-will divert to the alternate path.
+will divert to the alternate path. Uses lodash under the hood. 
+Will use `_.get(obj, "path.to.value")` to fetch values, since handlebars can't 
+return anything other than strings as a response and you might want to compare numbers or objects
 
 ```javascript
 {
-  "checkLambda": "lambda:arn"
+  "lodashCommand": "gt",
+  "value": {
+    type: "get",
+    value: "path.to.value"
+  },
+  "compareTo": {
+    type: "raw",
+    value: "myValue123"
+  }
 }
 ```
