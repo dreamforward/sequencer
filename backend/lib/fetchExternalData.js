@@ -11,7 +11,7 @@ const lambda = new AWS.Lambda({
 
 module.exports = (runnerList) => {
   if (process.env.IS_OFFLINE) {
-    console.log('OFFLINE')
+    console.log('OFFLINE - Manually calling fetch external data')
     const lambda = require('../functions/api/fetchExternalData')
     return new Promise((resolve, reject) => {
       return lambda.run(runnerList, {

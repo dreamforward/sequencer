@@ -11,7 +11,7 @@ const lambda = new AWS.Lambda({
 
 module.exports = (step) => {
   if (process.env.IS_OFFLINE) {
-    console.log('OFFLINE')
+    console.log('OFFLINE - Manually executing step ', step.type)
     const runner = require(`../functions/steps/${step.type}`)
     return new Promise((resolve, reject) => {
       return runner.run({

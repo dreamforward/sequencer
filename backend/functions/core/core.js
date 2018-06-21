@@ -28,6 +28,9 @@ const fetchGoalSteps = () => {
       }
     ]
   })
+    .filter((step) => {
+      return step.Sequence && step.Sequence.Runners
+    })
     .map((step) => {
       step.Runners = step.Sequence.Runners.map((runner) => {
         return runner.get({raw: true})
@@ -42,7 +45,7 @@ const fetchActiveSteps = () => {
   return models.Step.findAll({
     where: {
       type: {
-        [models.Sequelize.Op.$ne]: 'Goal'
+        [models.Sequelize.Op.ne]: 'Goal'
       }
     },
     include: [
@@ -87,7 +90,7 @@ const populateStepsWithExternalData = (steps) => {
 }
 
 const executeSteps = (steps) => {
-  return steps.map((step) => {
+  return Promise.map(steps, (step) => {
     return Promise.props({
       step: step,
       results: executeStep(step)
@@ -160,14 +163,15 @@ module.exports.run = wrapPromise.rest(() => {
       return executeSteps(stepGroups.goalSteps)
         .then(processStepResults)
         .then((changes) => {
-          // Add metrics
-          metrics.next += changes.next.length
-          metrics.altNext += changes.altNext.length
-          metrics.noop += changes.noop.length
-          metrics.finished += changes.finished.length
-
-          // Remove changed items from active steps!
-          const changed = [].concat(changes.next, changes.altNext, changes.finished)
+          let changed = []
+          changes.forEach((change) => {
+            // Add metrics
+            metrics.next += change.next.length
+            metrics.altNext += change.altNext.length
+            metrics.noop += change.noop.length
+            metrics.finished += change.finished.length
+            changed = changed.concat(change.next, change.altNext, change.finished)
+          })
           if (!changed.length) {
             // Nothing changed, just run active steps
             return stepGroups.activeSteps
@@ -190,12 +194,13 @@ module.exports.run = wrapPromise.rest(() => {
       return executeSteps(activeSteps)
         .then(processStepResults)
         .then((changes) => {
-          // Add metrics
-          metrics.next += changes.next.length
-          metrics.altNext += changes.altNext.length
-          metrics.noop += changes.noop.length
-          metrics.finished += changes.finished.length
-
+          changes.forEach((change) => {
+            // Add metrics
+            metrics.next += change.next.length
+            metrics.altNext += change.altNext.length
+            metrics.noop += change.noop.length
+            metrics.finished += change.finished.length
+          })
           return metrics
         })
     })

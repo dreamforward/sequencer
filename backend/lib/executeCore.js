@@ -10,7 +10,7 @@ const lambda = new AWS.Lambda({
 
 module.exports = () => {
   if (process.env.IS_OFFLINE) {
-    console.log('OFFLINE')
+    console.log('OFFLINE - Ignoring core execution')
     return Promise.resolve()
   }
   return lambda.invoke({
