@@ -5,8 +5,19 @@ const _ = require('lodash')
 module.exports.run = wrapPromise.plain((event) => {
   const config = event.config
   return event.runners.map((runner) => {
-    const value = _.get(runner, config.value)
-    const compareTo = _.get(runner, config.compareTo)
+    let value
+    if (config.value.type === 'raw') {
+      value = config.value.value
+    } else if (config.value.type === 'get') {
+      console.log(runner, config.value.value)
+      value = _.get(runner, config.value.value)
+    }
+    let compareTo
+    if (config.compareTo.type === 'raw') {
+      compareTo = config.compareTo.value
+    } else if (config.compareTo.type === 'get') {
+      compareTo = _.get(runner, config.compareTo.value)
+    }
     const matches = _[config.lodashCommand](value, compareTo)
     return {
       id: runner.id,
