@@ -15,7 +15,12 @@ module.exports.run = wrapPromise.plain((event) => {
     }
     ;['to', 'bcc', 'cc'].forEach((key) => {
       if (typeof config[key] === 'string') {
-        compiled[key] = compileString(config[key], runner)
+        const emailString = compileString(config[key], runner)
+        if (emailString.indexOf('[')) {
+          compiled[key] = JSON.parse(emailString)
+        } else {
+          compiled[key] = [emailString]
+        }
         return
       }
       compiled[key] = config[key].map((string) => {

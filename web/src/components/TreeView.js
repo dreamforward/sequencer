@@ -31,11 +31,17 @@ export default class TreeView extends Component {
 
           const getNodeTitle = (node) => {
             return <div onMouseOver={this.setupHover(node)} onMouseOut={this.leaveHover}>
-              {node.type}
+              {node.id}: {node.type}
             </div>
           }
 
           const traverse = (node) => {
+            if (node.processed) {
+              return {
+                title: 'Recursive Reference',
+                node
+              }
+            }
             node.processed = true
             if (!node) { return }
             const children = []
@@ -154,6 +160,7 @@ export default class TreeView extends Component {
         {JSON.stringify(this.state.activeNode.config, 0, 2)}
       </pre>
     }
+    console.log(this.state.treeData)
     return (
       <div>
         <div className="columns">

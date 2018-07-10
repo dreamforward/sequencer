@@ -38,6 +38,11 @@ provider:
           - Ref: AWS::AccountId
           - function:${self:service}-${opt:stage, self:provider.stage}-*
 
+    - Effect: 'Allow'
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource: ${self:custom.fetchExternalDataLambda}
+
 plugins:
   - serverless-crypt
   - serverless-plugin-scripts
@@ -103,7 +108,7 @@ functions:
     events:
       - schedule:
           rate: rate(5 minutes)
-          enabled: false
+          enabled: true
       - http:
           cors: true
           path: core
