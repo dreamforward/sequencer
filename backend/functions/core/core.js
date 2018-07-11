@@ -144,10 +144,18 @@ const processStepResults = (stepResults) => {
 
 module.exports.run = wrapPromise.rest(() => {
   let metrics = {
-    next: 0,
-    altNext: 0,
-    noop: 0,
-    finished: 0
+    goals: {
+      next: 0,
+      altNext: 0,
+      noop: 0,
+      finished: 0
+    },
+    steps: {
+      next: 0,
+      altNext: 0,
+      noop: 0,
+      finished: 0
+    }
   }
   return Promise.props({
     goalSteps: fetchGoalSteps(),
@@ -166,10 +174,10 @@ module.exports.run = wrapPromise.rest(() => {
           let changed = []
           changes.forEach((change) => {
             // Add metrics
-            metrics.next += change.next.length
-            metrics.altNext += change.altNext.length
-            metrics.noop += change.noop.length
-            metrics.finished += change.finished.length
+            metrics.goals.next += change.next.length
+            metrics.goals.altNext += change.altNext.length
+            metrics.goals.noop += change.noop.length
+            metrics.goals.finished += change.finished.length
             changed = changed.concat(change.next, change.altNext, change.finished)
           })
           if (!changed.length) {
@@ -196,17 +204,17 @@ module.exports.run = wrapPromise.rest(() => {
         .then((changes) => {
           changes.forEach((change) => {
             // Add metrics
-            metrics.next += change.next.length
-            metrics.altNext += change.altNext.length
-            metrics.noop += change.noop.length
-            metrics.finished += change.finished.length
+            metrics.steps.next += change.next.length
+            metrics.steps.altNext += change.altNext.length
+            metrics.steps.noop += change.noop.length
+            metrics.steps.finished += change.finished.length
           })
           return metrics
         })
     })
     .then((metrics) => {
       // Should we re-execute? Only if there were changes that were non terminal
-      if (metrics.next || metrics.altNext) {
+      if (metrics.steps.next || metrics.steps.altNext) {
         return executeCore()
       }
     })

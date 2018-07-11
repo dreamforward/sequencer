@@ -24,13 +24,12 @@ module.exports = (runnerList) => {
     FunctionName: process.env.FETCH_EXTERNAL_DATA_LAMBDA,
     InvocationType: 'RequestResponse',
     Payload: JSON.stringify({
-      runners: runnerList.map((runner) => {
-        return runner.get({id: true, dataLookup: true})
-      })
+      runners: runnerList
     })
   })
     .promise()
     .then((results) => {
+      console.log(results)
       return JSON.parse(results.Payload)
     })
 }

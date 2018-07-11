@@ -9,6 +9,9 @@ module.exports.plain = (handler) => {
       .then((password) => {
         process.env.POSTGRES_PASSWORD = password
         return Promise.method(handler)(event)
+          .tap((results) => {
+            console.log('Run Results: ', results)
+          })
       })
   }
 }

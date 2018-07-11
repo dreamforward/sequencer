@@ -18,7 +18,9 @@ module.exports.run = wrapPromise.plain((event) => {
     } else if (config.compareTo.type === 'get') {
       compareTo = _.get(runner, config.compareTo.value)
     }
+    console.log(config.lodashCommand, value, compareTo)
     const matches = _[config.lodashCommand](value, compareTo)
+    console.log('Matches?', matches)
     return {
       id: runner.id,
       action: matches ? 'next' : 'noop'

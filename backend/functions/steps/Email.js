@@ -14,9 +14,12 @@ module.exports.run = wrapPromise.plain((event) => {
       subject: compileString(config.subject, runner)
     }
     ;['to', 'bcc', 'cc'].forEach((key) => {
+      if (!config[key]) {
+        return
+      }
       if (typeof config[key] === 'string') {
         const emailString = compileString(config[key], runner)
-        if (emailString.indexOf('[')) {
+        if (emailString.indexOf('[') !== -1) {
           compiled[key] = JSON.parse(emailString)
         } else {
           compiled[key] = [emailString]
