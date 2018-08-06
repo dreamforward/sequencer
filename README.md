@@ -14,6 +14,7 @@ Requirements:
 * AWS account (to run your lambdas)
 * Docker (rebuilding node_modules to match deploy target)
 
+Installation:
 * Run `npm install`
 * Change dir to lib and run `npm install`
     * Note, this is so the deploy does not get any development dependencies, to make the final package as small as possible
@@ -27,7 +28,7 @@ Requirements:
     * Make sure to add the cryptkey that we generated earlier
     * Encrypt your postgres password in the lib dir
         ```bash
-        cd lib
+        cd backend
         sls encrypt -n uniqueNamedKey -t 'password' --stage prod --save
         ```
     * Commit the generated file to source control for your team to use
@@ -132,7 +133,7 @@ Send an email
 Send an sms
 
 ```javascript
-{****
+{
   "from": "+11231231234",
   "to": "+11231231234",
   "message": "Hello world"

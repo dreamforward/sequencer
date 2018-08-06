@@ -27,6 +27,9 @@ module.exports.rest = (handler) => {
       .then((results) => {
         return {
           statusCode: 200,
+          headers: {
+            'access-control-allow-origin': '*'
+          },
           body: JSON.stringify(results)
         }
       })

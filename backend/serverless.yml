@@ -67,7 +67,7 @@ functions:
           method: get
           authorizer: apiAuthorizer
       - http:
-          cors: truew
+          cors: true
           path: admin/crud/{model}/{id}
           method: get
           authorizer: apiAuthorizer
@@ -109,10 +109,6 @@ functions:
       - schedule:
           rate: rate(5 minutes)
           enabled: true
-      - http:
-          cors: true
-          path: core
-          method: get
 
   WaitForDate:
     handler: functions/steps/WaitForDate.run
